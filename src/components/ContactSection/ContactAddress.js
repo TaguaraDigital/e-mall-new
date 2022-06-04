@@ -3,7 +3,7 @@ import styles from './contact.module.scss';
 import { FaEnvelope, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import logo from '../../assets/image/logos/emall.png';
 
-// import GoogleMaps from "../GoogleMap/GoogleMaps";
+import { GoogleMaps } from '../newGoogleMap';
 
 const ContactAddress = ({ data }) => {
   return (
@@ -48,12 +48,9 @@ const ContactAddress = ({ data }) => {
         )}
       </div>
 
-      <div>
-        <h1>Aqui va GoogleMap</h1>
-      </div>
-      {/* <ContactMap>
+      <div className={styles.map}>
         <GoogleMaps location={data.location} />
-      </ContactMap> */}
+      </div>
     </div>
   );
 };
