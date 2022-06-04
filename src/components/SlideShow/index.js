@@ -3,7 +3,7 @@ import { IoArrowForward, IoArrowBack } from 'react-icons/io5';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import styles from './slider.module.scss';
 
-const SlideShow = ({ slides, id }) => {
+export const SlideShow = ({ slides, id }) => {
   const slideshow = useRef(null);
 
   const autoScroll = true;
@@ -85,6 +85,7 @@ const SlideShow = ({ slides, id }) => {
                   <div className={styles.socialMedia}>
                     <a
                       href="https://www.facebook.com/SaintdeVenezuela/"
+                      rel="noopener noreferrer"
                       target="_blank"
                       aria-label="Facebook"
                     >
@@ -92,6 +93,7 @@ const SlideShow = ({ slides, id }) => {
                     </a>
                     <a
                       href="https://www.instagram.com/saintve/"
+                      rel="noopener noreferrer"
                       target="_blank"
                       aria-label="Instagram"
                     >
@@ -119,5 +121,3 @@ const SlideShow = ({ slides, id }) => {
     </section>
   );
 };
-
-export default SlideShow;
