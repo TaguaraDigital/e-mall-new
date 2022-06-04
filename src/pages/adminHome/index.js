@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
 import { useAuth } from '../../context/auth';
 
+import { Dashboard } from '../../components/Dashboards';
 import { ContactSection } from '../../components/ContactSection';
-import { SlideShow } from '../../components/SlideShow';
-import { SliderData } from '../../components/SlideShow/SliderData';
 
-export const Landing = () => {
+export const AdminHome = () => {
   const { setView } = useAuth();
 
   useEffect(() => {
-    setView('landing');
+    setView('admin');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <SlideShow id="home" slides={SliderData} />
+      <Dashboard />
       <ContactSection />
     </>
   );

@@ -127,6 +127,14 @@
   margin: 0 0 15px;
   padding: 0;
 }
+.credentialError {
+  background-color: var(--saintOrangeLight);
+  color: var(--ctaClr);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+}
 
 .muteLink {
   font-size: 0.7rem;

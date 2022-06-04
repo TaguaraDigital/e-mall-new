@@ -11,15 +11,7 @@ import AccessFinder from '../../apis/Access';
 import logo from '../../assets/image/logos/emall.png';
 
 export const Login = () => {
-  const {
-    auth,
-    view,
-    setView,
-    setCurrentUser,
-    setAuth,
-    setIsUser,
-    setIsAdmin,
-  } = useAuth();
+  const { setView, setCurrentUser, setAuth, setIsUser, setIsAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -82,7 +74,7 @@ export const Login = () => {
               <img src={logo} alt="emall-logo"></img>
             </div>
             <h1 className={styles.title}>Gracias por volver</h1>
-            {isError && <p className="error">{isError}</p>}
+            {isError && <p className={styles.credentialError}>{isError}</p>}
           </div>
           <div className={styles.body}>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
