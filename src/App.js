@@ -7,6 +7,7 @@ import { RequireAuth } from './context/RequireAuth';
 import { Sidebar } from './components/sidebar';
 
 import { Landing } from './pages/landing';
+import { Login } from './pages/login';
 import { Home } from './components/Home';
 // import { About } from './components/About'
 // import { Navbar } from './components/Navbar';
@@ -20,7 +21,7 @@ import { NoMatch } from './components/NoMatch';
 import { Users } from './components/Users';
 import { UserDetails } from './components/UserDetails';
 import { Admin } from './components/Admin';
-import { Login } from './components/Login';
+// import { Login } from './components/Login';
 import { Profile } from './components/Profile';
 
 const LazyAbout = React.lazy(() => import('./components/About'));

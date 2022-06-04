@@ -62,18 +62,24 @@ export const Header = () => {
               return link.cName === 'scroll' ? (
                 // scroll in same page
                 <li key={link.id}>
-                  <Links to={link.path}> {link.title}</Links>
+                  <Links to={link.path} onClick={handleShowToggleMenu}>
+                    {link.title}
+                  </Links>
                 </li>
               ) : link.cName === 'single' ? (
                 // Single Link
                 <li key={link.id}>
-                  <NavLink to={link.path}>{link.title}</NavLink>
+                  <NavLink to={link.path} onClick={handleShowToggleMenu}>
+                    {link.title}
+                  </NavLink>
                 </li>
               ) : // Dropdown Link
 
               link.cName === 'dropdown' ? (
                 <li key={link.id} className={styles.subMenu}>
-                  <NavLink to={link.path}>{link.title}</NavLink>
+                  <NavLink to={link.path} onClick={handleShowToggleMenu}>
+                    {link.title}
+                  </NavLink>
 
                   <ul className={styles.dropdownMenu}>
                     {link.subMenu.map((link) => {
@@ -88,7 +94,9 @@ export const Header = () => {
               ) : (
                 // Mega Menu Link
                 <li key={link.id} className={styles.subMenu}>
-                  <NavLink to={link.path}>{link.title}</NavLink>
+                  <NavLink to={link.path} onClick={handleShowToggleMenu}>
+                    {link.title}
+                  </NavLink>
                   <div className={styles.megaMenu}>
                     <div className={styles.content}>
                       {link.subMenu.map((item) => {
@@ -99,7 +107,12 @@ export const Header = () => {
                               {item.subMenu?.map((i) => {
                                 return (
                                   <li key={i.id}>
-                                    <NavLink to={i.path}>{i.title}</NavLink>
+                                    <NavLink
+                                      to={i.path}
+                                      onClick={handleShowToggleMenu}
+                                    >
+                                      {i.title}
+                                    </NavLink>
                                   </li>
                                 );
                               })}
