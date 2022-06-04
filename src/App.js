@@ -9,6 +9,8 @@ import { Sidebar } from './components/sidebar';
 import { Landing } from './pages/landing';
 import { Login } from './pages/login';
 import { AdminHome } from './pages/adminHome';
+import { UsersHome } from './pages/usersHome';
+
 // import { Home } from './components/Home';
 // import { About } from './components/About'
 // import { Navbar } from './components/Navbar';
@@ -38,6 +40,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/landing" element={<Landing />} />
             <Route path="/admin" element={<AdminHome />} />
+            <Route path="/user" element={<UsersHome />} />
             <Route
               path="/profile"
               element={

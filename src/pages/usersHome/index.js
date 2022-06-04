@@ -1,13 +1,21 @@
-import Users from '../../components/User/Update';
-import ContactSection from '../../components/ContactSection';
+import { useEffect } from 'react';
+import { useAuth } from '../../context/auth';
 
-const ClientUpdate = () => {
+import { UserUpdate } from '../../components/users/Update';
+import { ContactSection } from '../../components/ContactSection';
+
+export const UsersHome = () => {
+  const { setView } = useAuth();
+
+  useEffect(() => {
+    setView('user');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <Users />
+      <UserUpdate />
       <ContactSection />
     </>
   );
 };
-
-export default ClientUpdate;
