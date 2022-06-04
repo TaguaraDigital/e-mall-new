@@ -46,11 +46,12 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
   };
 
-  const logout = (e) => {
-    e.preventDefault();
+  const logout = () => {
     localStorage.removeItem('token');
     setAuth(false);
     setUser(null);
+    setIsAdmin(false);
+    setIsUser(false);
   };
 
   const value = {

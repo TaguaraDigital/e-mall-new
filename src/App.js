@@ -1,11 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { AuthProvider } from './context/auth';
+import { RequireAuth } from './context/RequireAuth';
+
 import { Sidebar } from './components/sidebar';
 
 import { Home } from './components/Home';
 // import { About } from './components/About'
-import { Navbar } from './components/Navbar';
+// import { Navbar } from './components/Navbar';
+import { Header as Navbar } from './components/header';
 import { OrderSummary } from './components/OrderSummary';
 import { NewProducts } from './components/NewProducts';
 import { FeaturedProducts } from './components/FeaturedProducts';
@@ -14,10 +18,8 @@ import { NoMatch } from './components/NoMatch';
 import { Users } from './components/Users';
 import { UserDetails } from './components/UserDetails';
 import { Admin } from './components/Admin';
-import { AuthProvider } from './components/auth';
 import { Login } from './components/Login';
 import { Profile } from './components/Profile';
-import { RequireAuth } from './components/RequireAuth';
 
 const LazyAbout = React.lazy(() => import('./components/About'));
 

@@ -1,27 +1,40 @@
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { FaBars, FaSearch } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import SidebarMenu from './SidebarMenu';
-import ShipmentSidebar from './ShipmentSidebar';
+
 import './sidebar.scss';
+import styles from './sidebar.module.scss';
 import { routes } from './dataRouteSidebar';
+import { useAuth } from '../../context/auth';
 
 export const Sidebar = ({ children }) => {
-  const location = useLocation().pathname;
-  let sidebarTitle = 'Shipment';
-  let routersPage = routes.home;
+  const { view } = useAuth();
 
-  switch (location) {
-    case '/shipment':
-      sidebarTitle = 'Shipment Search';
-      routersPage = routes.home;
+  let sidebarTitle = 'Saint E-Mall';
+  let routersPage = routes.landing;
+
+  switch (view) {
+    case 'landing':
+      sidebarTitle = 'Saint E-Mall';
+      routersPage = routes.landing;
       break;
 
-    case '/dashboard':
-      sidebarTitle = 'Dashboard';
-      routersPage = routes.others;
+    case 'login':
+      sidebarTitle = 'Ingresar';
+      routersPage = routes.login;
+      break;
+
+    case 'user':
+      sidebarTitle = 'Bien Venido';
+      routersPage = routes.user;
+      break;
+
+    case 'admin':
+      sidebarTitle = 'Adminitracion';
+      routersPage = routes.admin;
       break;
     default:
       sidebarTitle = 'Documentation';
@@ -35,16 +48,12 @@ export const Sidebar = ({ children }) => {
     hidden: {
       width: 0,
       padding: 0,
-      transition: {
-        duration: 0.2,
-      },
+      transition: { duration: 0.2 },
     },
     show: {
       width: '140px',
       padding: '5px 15px',
-      transition: {
-        duration: 0.2,
-      },
+      transition: { duration: 0.2 },
     },
   };
 
@@ -52,22 +61,18 @@ export const Sidebar = ({ children }) => {
     hidden: {
       width: 0,
       opacity: 0,
-      transition: {
-        duration: 0.5,
-      },
+      transition: { duration: 0.5 },
     },
     show: {
       opacity: 1,
       width: 'auto',
-      transition: {
-        duration: 0.5,
-      },
+      transition: { duration: 0.5 },
     },
   };
 
   return (
     <>
-      <div className="main-container">
+      <div className={styles.mainContainer}>
         <motion.div
           animate={{
             width: isOpen
@@ -80,9 +85,9 @@ export const Sidebar = ({ children }) => {
               damping: 10,
             },
           }}
-          className={`sidebar `}
+          className={styles.sidebar}
         >
-          <div className="top_section">
+          <div className={styles.topSection}>
             <AnimatePresence>
               {isOpen && (
                 <motion.h1
@@ -90,80 +95,75 @@ export const Sidebar = ({ children }) => {
                   initial="hidden"
                   animate="show"
                   exit="hidden"
-                  className="logo"
+                  className={styles.logo}
                 >
                   {sidebarTitle}
                 </motion.h1>
               )}
             </AnimatePresence>
 
-            <div className="bars">
+            <div className={styles.bars}>
               <FaBars onClick={toggle} />
             </div>
           </div>
 
-          {sidebarTitle === 'Shipment Search' ? (
-            isOpen && <ShipmentSidebar />
-          ) : (
-            <>
-              <div className="search">
-                <div className="search_icon">
-                  <FaSearch />
-                </div>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.input
-                      initial="hidden"
-                      animate="show"
-                      exit="hidden"
-                      variants={inputAnimation}
-                      type="text"
-                      placeholder="Search"
-                    />
-                  )}
-                </AnimatePresence>
+          <>
+            <div className={styles.search}>
+              <div>
+                <FaSearch />
               </div>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.input
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    variants={inputAnimation}
+                    type="text"
+                    placeholder="Search"
+                  />
+                )}
+              </AnimatePresence>
+            </div>
 
-              <section className="routes">
-                {routersPage.map((route, index) => {
-                  if (route.subRoutes) {
-                    return (
-                      <SidebarMenu
-                        setIsOpen={setIsOpen}
-                        route={route}
-                        showAnimation={showAnimation}
-                        isOpen={isOpen}
-                      />
-                    );
-                  }
-
+            <section className={styles.routes}>
+              {routersPage.map((route, index) => {
+                if (route.subRoutes) {
                   return (
-                    <NavLink
-                      to={route.path}
-                      key={index}
-                      className="link"
-                      activeClassName="active"
-                    >
-                      <div className="icon">{route.icon}</div>
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            variants={showAnimation}
-                            initial="hidden"
-                            animate="show"
-                            exit="hidden"
-                            className="link_text"
-                          >
-                            {route.name}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </NavLink>
+                    <SidebarMenu
+                      setIsOpen={setIsOpen}
+                      route={route}
+                      showAnimation={showAnimation}
+                      isOpen={isOpen}
+                    />
                   );
-                })}
-              </section>
-            </>
-          )}
+                }
+
+                return (
+                  <NavLink
+                    to={route.path}
+                    key={route.id}
+                    className={styles.link}
+                  >
+                    <div>{route.icon}</div>
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          variants={showAnimation}
+                          initial="hidden"
+                          animate="show"
+                          exit="hidden"
+                          className={styles.link_text}
+                        >
+                          {route.name}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </NavLink>
+                );
+              })}
+            </section>
+          </>
         </motion.div>
 
         <main>{children}</main>

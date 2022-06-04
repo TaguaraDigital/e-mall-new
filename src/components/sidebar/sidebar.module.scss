@@ -3,10 +3,11 @@
   --sidebar-width-close: 50px;
 }
 
-.main-container {
+.mainContainer {
   display: flex;
   padding-top: var(--header-height);
   background-color: var(--lightClr);
+  min-height: 100vh;
 }
 
 main {
@@ -27,16 +28,18 @@ main {
   overflow-y: auto;
 }
 
-.top_section {
+.topSection {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 15px 10px;
 }
+
 .logo {
   font-size: 14px;
   line-height: 0;
 }
+
 .bars {
   width: 30px;
 }
@@ -71,13 +74,15 @@ main {
 
 .link {
   display: flex;
+  text-decoration: none;
   color: var(--lightClr);
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 
-  &:hover {
+  &:hover,
+  .active {
     border-right: 4px solid var(--lightClr);
     background-color: var(--saintOrange);
     transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
