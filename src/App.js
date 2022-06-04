@@ -6,6 +6,7 @@ import { RequireAuth } from './context/RequireAuth';
 
 import { Sidebar } from './components/sidebar';
 
+import { Landing } from './pages/landing';
 import { Home } from './components/Home';
 // import { About } from './components/About'
 // import { Navbar } from './components/Navbar';
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/landing" element={<Landing />} />
             <Route
               path="/profile"
               element={
