@@ -11,6 +11,7 @@ import { Home } from './components/Home';
 // import { About } from './components/About'
 // import { Navbar } from './components/Navbar';
 import { Header as Navbar } from './components/header';
+import { Footer } from './components/footer';
 import { OrderSummary } from './components/OrderSummary';
 import { NewProducts } from './components/NewProducts';
 import { FeaturedProducts } from './components/FeaturedProducts';
@@ -64,6 +65,7 @@ function App() {
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </Sidebar>
+        <Footer />
       </BrowserRouter>
     </AuthProvider>
   );
