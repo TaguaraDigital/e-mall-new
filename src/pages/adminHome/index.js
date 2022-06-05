@@ -8,7 +8,7 @@ export const AdminHome = () => {
   const { setView } = useAuth();
 
   useEffect(() => {
-    setView('admin');
+    setView('adminHome');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

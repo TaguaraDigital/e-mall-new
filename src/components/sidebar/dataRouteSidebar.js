@@ -72,7 +72,7 @@ export const routes = {
     },
     {
       id: 'user-06',
-      path: 'logout',
+      path: '/',
       name: 'Salir',
       icon: <FaSignOutAlt />,
     },

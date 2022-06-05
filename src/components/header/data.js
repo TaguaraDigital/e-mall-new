@@ -38,7 +38,7 @@ export const headerData = {
     {
       id: 'admin-01',
       title: 'Inicio',
-      path: './home',
+      path: './admin',
       cName: 'single',
       icon: <FaHome />,
     },
@@ -95,8 +95,9 @@ export const headerData = {
     },
     {
       id: 'user-06',
-      title: 'Logout',
-      path: './logout',
+      title: 'Salir',
+      path: '/',
+      name: 'Salir',
       cName: 'single',
       icon: <FaSignOutAlt />,
     },
