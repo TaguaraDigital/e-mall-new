@@ -92,7 +92,7 @@ export const routes = {
     },
     {
       id: 'admin-03',
-      path: '/admin/payment-confirm',
+      path: '/admin/invoicetoconfirm',
       name: 'Confirmar Pagos',
       icon: <FaShip />,
     },

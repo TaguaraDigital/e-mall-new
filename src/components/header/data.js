@@ -45,7 +45,7 @@ export const headerData = {
     {
       id: 'admin-02',
       title: 'Pagos X Confirmar',
-      path: './invoicetoconfirm',
+      path: '/admin/invoicetoconfirm',
       cName: 'single',
       icon: <BsCardChecklist />,
     },
