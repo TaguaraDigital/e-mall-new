@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/auth';
-import InvoicesFinder from '../../../apis/invoicesFinder';
+import invoicesFinder from '../../../apis/invoicesFinder';
 import ExchangeRateFinder from '../../../apis/ExchangeRateFinder';
 // import InvoicesPayMethod from './InvoicesPayMethod';
 import { FormatDecimal, FormatDate } from '../../../utils/formats';
+import globalStyles from '../../../smartTable.module.scss';
 import styles from './invoicesPending.module.scss';
 
 export const InvoicesPending = () => {
-  const { currentUser, checkAuthenticated, invoices, setInvoices } = useAuth();
+  const { currentUser, invoices, setInvoices } = useAuth();
 
   const [amountToPay, setAmountToPay] = useState(0);
   const [exchangeRate, setExchangeRate] = useState(4.0);
@@ -45,11 +46,6 @@ export const InvoicesPending = () => {
   };
 
   useEffect(() => {
-    checkAuthenticated();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     const fetchExchengeRate = async () => {
       try {
         const response = await ExchangeRateFinder.today();
@@ -65,7 +61,7 @@ export const InvoicesPending = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await InvoicesFinder.pending(currentUser.client_code);
+        const response = await invoicesFinder.pending(currentUser.client_code);
 
         setTotalDebt(
           response.data.invoices.reduce(
@@ -85,11 +81,11 @@ export const InvoicesPending = () => {
   }, []);
 
   return (
-    <div className="list-group">
+    <section className={styles.section}>
       <p className={styles.exchangeRate}>
         Tasa de Cambio: <span>{FormatDecimal(exchangeRate)}</span> Bs./US$
       </p>
-      <table className="smart-table">
+      <table className={globalStyles.smartTable}>
         <caption>Recibos Pendientes</caption>
         <thead>
           <tr>
@@ -160,6 +156,6 @@ export const InvoicesPending = () => {
           exchangeRate={exchangeRate}
         />
       )} */}
-    </div>
+    </section>
   );
 };

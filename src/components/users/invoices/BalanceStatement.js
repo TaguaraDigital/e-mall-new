@@ -3,6 +3,7 @@ import { useAuth } from '../../../context/auth';
 import invoicesFinder from '../../../apis/invoicesFinder';
 
 import { FormatDecimal, FormatDate } from '../../../utils/formats';
+import globalStyles from '../../../smartTable.module.scss';
 import styles from './balanceStatement.module.scss';
 
 export const UserBalanceStatement = () => {
@@ -46,7 +47,7 @@ export const UserBalanceStatement = () => {
     <section className={styles.section}>
       {isLoading && <h1> Buscando Estado de cuenta .....</h1>}
       {!isLoading && (
-        <table className={styles.smartTable}>
+        <table className={globalStyles.smartTable}>
           <thead>
             <tr>
               <th> Nro </th>
