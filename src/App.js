@@ -10,6 +10,8 @@ import { Landing } from './pages/landing';
 import { Login } from './pages/login';
 import { AdminHome } from './pages/adminHome';
 import { UsersHome } from './pages/usersHome';
+import { UserInvoicesPending } from './pages/usersHome/InvoicesPending';
+import { UserBalance } from './pages/usersHome/Balance';
 
 // import { Home } from './components/Home';
 // import { About } from './components/About'
@@ -41,6 +43,11 @@ function App() {
             <Route path="/landing" element={<Landing />} />
             <Route path="/admin" element={<AdminHome />} />
             <Route path="/user" element={<UsersHome />} />
+            <Route
+              path="/user/invoicepending"
+              element={<UserInvoicesPending />}
+            />
+            <Route path="/user/balance" element={<UserBalance />} />
             <Route
               path="/profile"
               element={

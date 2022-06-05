@@ -39,7 +39,7 @@ export const routes = {
       icon: <FaHome />,
     },
   ],
-  user: [
+  userHome: [
     {
       id: 'user-01',
       path: '/user',
@@ -77,7 +77,7 @@ export const routes = {
       icon: <FaSignOutAlt />,
     },
   ],
-  admin: [
+  adminHome: [
     {
       id: 'admin-01',
       path: '/',

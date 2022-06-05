@@ -27,11 +27,11 @@ export const Header = () => {
       routersPage = data.login;
       break;
 
-    case 'admin':
+    case 'adminHome':
       routersPage = data.adminHome;
       break;
 
-    case 'user':
+    case 'userHome':
       routersPage = data.userHome;
       break;
 

@@ -27,14 +27,14 @@ export const Sidebar = ({ children }) => {
       routersPage = routes.login;
       break;
 
-    case 'user':
+    case 'userHome':
       sidebarTitle = 'Bien Venido';
-      routersPage = routes.user;
+      routersPage = routes.userHome;
       break;
 
-    case 'admin':
+    case 'adminHome':
       sidebarTitle = 'Adminitracion';
-      routersPage = routes.admin;
+      routersPage = routes.adminHome;
       break;
     default:
       sidebarTitle = 'Documentation';

@@ -1,11 +1,4 @@
-import {
-  FaHome,
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaUser,
-  FaUserAlt,
-  FaUserEdit,
-} from 'react-icons/fa';
+import { FaHome, FaSignInAlt, FaSignOutAlt, FaUserEdit } from 'react-icons/fa';
 import { GrContactInfo } from 'react-icons/gr';
 import { BsCardChecklist } from 'react-icons/bs';
 export const headerData = {
@@ -68,21 +61,21 @@ export const headerData = {
     {
       id: 'user-01',
       title: 'Inicio',
-      path: './home',
+      path: './user',
       cName: 'single',
       icon: <FaHome />,
     },
     {
       id: 'user-02',
       title: 'Pagar Recibos',
-      path: './payinvoices',
+      path: '/user/invoicepending',
       cName: 'single',
       icon: <BsCardChecklist />,
     },
     {
       id: 'user-03',
       title: 'Estado de Cuenta',
-      path: './statements',
+      path: '/user/balance',
       cName: 'single',
       icon: <BsCardChecklist />,
     },

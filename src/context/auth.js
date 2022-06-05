@@ -7,6 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [view, setView] = useState('landing');
   const [currentUser, setCurrentUser] = useState({});
+  const [invoices, setInvoices] = useState(null);
+  const [invoicesAll, setInvoicesAll] = useState(null);
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           setIsAdmin(false);
           setIsUser(true);
-          setView('usersHome');
+          setView('userHome');
         }
       } else {
         setCurrentUser({});
@@ -66,6 +69,10 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     setCurrentUser,
     isAuthenticated,
+    invoices,
+    setInvoices,
+    invoicesAll,
+    setInvoicesAll,
     setIsAuthenticated,
     checkAuthenticated,
     setAuth,
