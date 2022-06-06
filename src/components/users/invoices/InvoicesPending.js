@@ -1,76 +1,129 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/auth';
 import invoicesFinder from '../../../apis/invoicesFinder';
-import ExchangeRateFinder from '../../../apis/ExchangeRateFinder';
-// import InvoicesPayMethod from './InvoicesPayMethod';
+import { InvoicesPayMethod } from './InvoicesPayMethod';
 import { FormatDecimal, FormatDate } from '../../../utils/formats';
-import globalStyles from '../../../smartTable.module.scss';
 import styles from './invoicesPending.module.scss';
+import globalStyles from '../../../smartTable.module.scss';
 
 export const InvoicesPending = () => {
   const { currentUser, invoices, setInvoices } = useAuth();
 
-  const [amountToPay, setAmountToPay] = useState(0);
-  const [exchangeRate, setExchangeRate] = useState(4.0);
-  const [totalDebt, setTotalDebt] = useState(0);
+  const [amountToPay, setAmountToPay] = useState({
+    MontoUSD: 0,
+    IvaUSD: 0,
+    MontoBs: 0,
+    IvaBs: 0,
+    Deuda: 0,
+    Saldo_acum: 0,
+  });
+
+  const [totalDebt, setTotalDebt] = useState({
+    MontoUSD: 0,
+    IvaUSD: 0,
+    MontoBs: 0,
+    IvaBs: 0,
+    Deuda: 0,
+    Saldo_acum: 0,
+  });
+
   const [isTotalSelected, setIsTotalSelected] = useState(false);
 
+  const cal_saldo = (invoices) => {
+    const rec = [];
+    let saldo_acumulado = 0;
+
+    invoices.map((invoice, i) => {
+      saldo_acumulado = saldo_acumulado + invoice.Deuda;
+      rec.push({ ...invoice, saldo_acumulado });
+      return rec;
+    });
+    return rec;
+  };
+
   const handleCheckBoxAll = (e) => {
-    setAmountToPay(0);
+    const newAmountToPay = {
+      MontoUSD: 0,
+      IvaUSD: 0,
+      MontoBs: 0,
+      IvaBs: 0,
+      Deuda: 0,
+      Saldo_acum: 0,
+    };
     setIsTotalSelected(!isTotalSelected);
     invoices.map((invoice) => {
       if (e.target.checked) {
         invoice.invoice_status = 1;
-        setAmountToPay((amount) => amount + invoice.invoice_amount);
+        newAmountToPay.MontoUSD = newAmountToPay.MontoUSD + invoice.MontoMEx;
+        newAmountToPay.MontoBs = newAmountToPay.MontoBs + invoice.Monto;
+        newAmountToPay.IvaUSD =
+          newAmountToPay.IvaUSD + invoice.MtoTax / invoice.Factor;
+        newAmountToPay.IvaBs = newAmountToPay.IvaBs + invoice.MtoTax;
+        newAmountToPay.Deuda = newAmountToPay.Deuda + invoice.Deuda;
+        newAmountToPay.Saldo_acum =
+          newAmountToPay.Saldo_acum + invoice.saldo_acumulado;
       } else {
         invoice.invoice_status = 0;
       }
-
+      setAmountToPay(newAmountToPay);
       return amountToPay;
     });
   };
 
   const handleCheckBox = (e, id) => {
-    setAmountToPay(0);
+    const newAmountToPay = {
+      MontoUSD: 0,
+      IvaUSD: 0,
+      MontoBs: 0,
+      IvaBs: 0,
+      Deuda: 0,
+      Saldo_acum: 0,
+    };
     setIsTotalSelected(false);
     invoices.map((invoice) => {
-      if (id === invoice.invoice_id) {
+      if (id === invoice._id) {
         invoice.invoice_status = e.target.checked ? 1 : 0;
       }
 
       if (invoice.invoice_status === 1) {
-        setAmountToPay((amount) => amount + invoice.invoice_amount);
+        newAmountToPay.MontoUSD = newAmountToPay.MontoUSD + invoice.MontoMEx;
+        newAmountToPay.MontoBs = newAmountToPay.MontoBs + invoice.Monto;
+        newAmountToPay.IvaUSD =
+          newAmountToPay.IvaUSD + invoice.MtoTax / invoice.Factor;
+        newAmountToPay.IvaBs = newAmountToPay.IvaBs + invoice.MtoTax;
+        newAmountToPay.Deuda = newAmountToPay.Deuda + invoice.Deuda;
+        newAmountToPay.Saldo_acum =
+          newAmountToPay.Deuda + invoice.saldo_acumulado;
       }
+      setAmountToPay(newAmountToPay);
       return amountToPay;
     });
   };
 
   useEffect(() => {
-    const fetchExchengeRate = async () => {
-      try {
-        const response = await ExchangeRateFinder.today();
-        setExchangeRate(response);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchExchengeRate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await invoicesFinder.pending(currentUser.client_code);
+        const response = await invoicesFinder.pending(currentUser.cod_clie);
 
-        setTotalDebt(
-          response.data.invoices.reduce(
-            (total, item) => item.invoice_amount + total,
-            0
-          )
-        );
+        const newTotal = {
+          MontoUSD: 0,
+          IvaUSD: 0,
+          MontoBs: 0,
+          IvaBs: 0,
+          Deuda: 0,
+        };
 
-        setInvoices(response.data.invoices);
+        response.data.invoices.forEach((current) => {
+          newTotal.MontoUSD = newTotal.MontoUSD + current.MontoMEx;
+          newTotal.IvaUSD = newTotal.IvaUSD + current.MtoTax / current.Factor;
+          newTotal.MontoBs = newTotal.MontoBs + current.Monto;
+          newTotal.IvaBs = newTotal.IvaBs + current.MtoTax;
+          newTotal.Deuda = newTotal.Deuda + current.Deuda;
+        });
+
+        setTotalDebt(newTotal);
+
+        setInvoices(cal_saldo(response.data.invoices));
       } catch (err) {
         console.log(err);
       }
@@ -82,19 +135,25 @@ export const InvoicesPending = () => {
 
   return (
     <section className={styles.section}>
-      <p className={styles.exchangeRate}>
-        Tasa de Cambio: <span>{FormatDecimal(exchangeRate)}</span> Bs./US$
-      </p>
       <table className={globalStyles.smartTable}>
         <caption>Recibos Pendientes</caption>
         <thead>
           <tr>
             <th> Numero </th>
             <th> Factura </th>
-            <th> Fecha </th>
-            <th> Descripción </th>
+            <th> Tipo </th>
+            <th> F.Emisión </th>
+            <th> F.Venc. </th>
+            {/* <th> Descripción </th> */}
             <th> Monto US$ </th>
+            <th> IVA US$ </th>
+            <th> Factor </th>
             <th> Monto Bs. </th>
+            <th> IVA Bs. </th>
+            <th> Monto Total </th>
+            {/* <th> Pagos</th> */}
+            <th> Deuda Ped. </th>
+            <th> Saldo </th>
             <th> Pagar </th>
           </tr>
         </thead>
@@ -103,26 +162,49 @@ export const InvoicesPending = () => {
             invoices.length > 0 &&
             invoices.map((invoice, i) => {
               return (
-                <tr key={invoice.invoice_id}>
+                <tr key={invoice._id}>
                   <td data-col-title="Numero"> {i + 1} </td>
-                  <td data-col-title="Factura"> {invoice.invoice_id} </td>
-                  <td data-col-title="Fecha">{FormatDate(invoice.due_date)}</td>
-                  <td data-col-title="Descripcion">
-                    {invoice.invoice_description}
+                  <td data-col-title="Factura"> {invoice.NumeroD} </td>
+                  <td data-col-title="Tipo"> {invoice.TipoFac} </td>
+                  <td data-col-title="F. Emisión">
+                    {FormatDate(invoice.FechaI)}
                   </td>
+                  <td data-col-title="F. Venc.">
+                    {FormatDate(invoice.FechaV)}
+                  </td>
+                  {/* <td data-col-title="Descripcion">{invoice.Descrip}</td> */}
                   <td data-col-title="Monto US$">
-                    {FormatDecimal(invoice.invoice_amount)}
+                    {FormatDecimal(invoice.MontoMEx)}
+                  </td>
+                  <td data-col-title="IVA US$">
+                    {FormatDecimal(invoice.MtoTax / invoice.Factor)}
+                  </td>
+                  <td data-col-title="Factor">
+                    {FormatDecimal(invoice.Factor)}
                   </td>
                   <td data-col-title="Monto Bs.">
-                    {FormatDecimal(invoice.invoice_amount * exchangeRate)}
+                    {FormatDecimal(invoice.Monto)}
+                  </td>
+                  <td data-col-title="IVA Bs.">
+                    {FormatDecimal(invoice.MtoTax)}
+                  </td>
+                  <td data-col-title="Monto Total">
+                    {FormatDecimal(invoice.MtoTotal)}
+                  </td>
+                  <td data-col-title="Deuda">{FormatDecimal(invoice.Deuda)}</td>
+                  {/* <td data-col-title="Pagos">
+                    {FormatDecimal(invoice.MtoTotal - invoice.Deuda)}
+                  </td> */}
+                  <td data-col-title="Saldo">
+                    {FormatDecimal(invoice.saldo_acumulado)}
                   </td>
                   <td data-col-title="Pagar">
                     <input
                       type="checkbox"
                       checked={invoice.invoice_status === 1}
-                      name={'check' + invoice.invoice_id}
-                      id={'check' + invoice.invoice_id}
-                      onChange={(e) => handleCheckBox(e, invoice.invoice_id)}
+                      name={'check' + invoice._id}
+                      id={'check' + invoice._id}
+                      onChange={(e) => handleCheckBox(e, invoice._id)}
                     />
                   </td>
                 </tr>
@@ -131,13 +213,25 @@ export const InvoicesPending = () => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="4" className="first-cell">
+            <td colSpan="5" className="first-cell">
               Deuda Total
             </td>
-            <td data-col-title="Deuda US$">{FormatDecimal(totalDebt)}</td>
-            <td data-col-title="Deuda">
-              {FormatDecimal(totalDebt * exchangeRate)}
+            <td data-col-title="Monto US$">
+              {FormatDecimal(totalDebt.MontoUSD)}
             </td>
+            <td data-col-title="IVA US$">{FormatDecimal(totalDebt.IvaUSD)}</td>
+            <td data-col-title="Factor">{'-'}</td>
+            <td data-col-title="Monto Bs.">
+              {FormatDecimal(totalDebt.MontoBs)}
+            </td>
+            <td data-col-title="IVA Bs.">{FormatDecimal(totalDebt.IvaBs)}</td>
+            <td data-col-title="Monto Total">
+              {FormatDecimal(totalDebt.MontoBs + totalDebt.IvaBs)}
+            </td>
+            <td data-col-title="Deuda Total">
+              {FormatDecimal(totalDebt.Deuda)}
+            </td>
+            <td data-col-title="-">{'-'}</td>
             <td data-col-title="Pagar todos">
               <input
                 type="checkbox"
@@ -150,12 +244,9 @@ export const InvoicesPending = () => {
           </tr>
         </tfoot>
       </table>
-      {/* {amountToPay > 0 && (
-        <InvoicesPayMethod
-          amountToPay={amountToPay}
-          exchangeRate={exchangeRate}
-        />
-      )} */}
+      {amountToPay.MontoBs > 0 && (
+        <InvoicesPayMethod amountToPay={amountToPay} />
+      )}
     </section>
   );
 };

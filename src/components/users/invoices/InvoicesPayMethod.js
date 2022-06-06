@@ -1,22 +1,16 @@
-import { useContext, useState } from 'react';
-import { AuthContext } from '../../hooks/contexts/AuthContext';
+import { useState } from 'react';
+import { useAuth } from '../../../context/auth';
 
-import DepositPayment from '../../components/Payments/DepositPayment/DepositModal';
-import MovilPayPayment from '../../components/Payments/MovilPay/MovilPayModal';
-import ZellePayment from '../../components/Payments/ZellePayments';
+import { DepositMethod } from './DepositMethod';
+// import MovilPayPayment from '../../components/Payments/MovilPay/MovilPayModal';
+// import ZellePayment from '../../components/Payments/ZellePayments';
 
-import { FormatDecimal } from '../../services/utils/formats';
+import { FormatDecimal } from '../../../utils/formats';
 
-import {
-  // PayButton,
-  PayMethodButtons,
-  PayMethodButtonsContainer,
-  PayMethodContainer,
-  PayMethodSummary,
-} from './InvoicesPayMethod.Styles';
+import styles from './invoicesPayMethod.module.scss';
 
-const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
-  const { invoices } = useContext(AuthContext);
+export const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
+  const { invoices } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState('transfer');
   const [showModal, setShowModal] = useState(false);
   const [payments, setPayments] = useState({
@@ -86,17 +80,17 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
 
   return (
     <>
-      <PayMethodContainer>
-        <PayMethodSummary>
+      <section className={styles.section}>
+        <div className={styles.paySummary}>
           <div>
-            <span className="first-column">Concepto </span>
+            <span className={styles.firstColumn}>Concepto </span>
             <span>Monto US$</span>
             <span>Monto Bs.</span>
             <span>Saldo Bs.</span>
           </div>
 
           <div>
-            <span className="first-column">Subtotal :</span>
+            <span className={styles.firstColumn}>Subtotal :</span>
             <span>
               {FormatDecimal(amountToPay.MontoUSD + amountToPay.IvaUSD)}
             </span>
@@ -107,7 +101,7 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
           </div>
 
           <div>
-            <span className="first-column">Taq.Virtual 2%:</span>
+            <span className={styles.firstColumn}>Taq.Virtual 2%:</span>
             <span>
               {FormatDecimal(
                 (amountToPay.MontoUSD + amountToPay.IvaUSD) * 0.02
@@ -120,7 +114,7 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
           </div>
 
           <div>
-            <span className="first-column">Total :</span>
+            <span className={styles.firstColumn}>Total :</span>
             <span>
               {FormatDecimal(
                 (amountToPay.MontoUSD + amountToPay.IvaUSD) * 1.02
@@ -131,13 +125,13 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
             </span>
             <span>{FormatDecimal(amountToPay.Deuda * 1.02)}</span>
           </div>
-        </PayMethodSummary>
+        </div>
 
-        <PayMethodButtons>
+        <form className={styles.payButtonForm}>
           <h2> Metodo de Pago</h2>
-          <PayMethodButtonsContainer>
+          <div>
             <div>
-              <div className="radio-button">
+              <div className={styles.radioButton}>
                 <input
                   type="radio"
                   id="paypal"
@@ -151,7 +145,7 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
             </div>
 
             <div>
-              <div className="radio-button">
+              <div className={styles.radioButton}>
                 <input
                   type="radio"
                   id="transfer"
@@ -165,7 +159,7 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
             </div>
 
             <div>
-              <div className="radio-button">
+              <div className={styles.radioButton}>
                 <input
                   type="radio"
                   id="zelle"
@@ -179,7 +173,7 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
             </div>
 
             <div>
-              <div className="radio-button">
+              <div className={styles.radioButton}>
                 <input
                   type="radio"
                   id="pago-movil"
@@ -191,24 +185,19 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
                 <label htmlFor="pago-movil">Pago movil</label>
               </div>
             </div>
-          </PayMethodButtonsContainer>
-          {/* <div>
-            <PayButton bgClr="var(--saintGreen)" type="submit">
-              Pagar
-            </PayButton>
-          </div> */}
-        </PayMethodButtons>
-      </PayMethodContainer>
+          </div>
+        </form>
+      </section>
 
       <div className="pago-container">
         {showModal && payments.method === 'transfer' && (
-          <DepositPayment
+          <DepositMethod
             invoicesToPay={invoicesToPay}
             amount={payments.amount_Bs}
             show={setShowModal}
           />
         )}
-        {showModal && payments.method === 'pago-movil' && (
+        {/* {showModal && payments.method === 'pago-movil' && (
           <MovilPayPayment
             invoicesToPay={invoicesToPay}
             amount={payments.amount_Bs}
@@ -220,10 +209,8 @@ const InvoicesPayMethod = ({ amountToPay, exchangeRate }) => {
             invoicesToPay={invoicesToPay}
             amount={payments.payment_amount_USD}
           />
-        )}
+        )} */}
       </div>
     </>
   );
 };
-
-export default InvoicesPayMethod;
