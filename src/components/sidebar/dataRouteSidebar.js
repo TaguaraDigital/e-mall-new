@@ -12,7 +12,7 @@ import {
   FaUserEdit,
 } from 'react-icons/fa';
 import { MdMessage } from 'react-icons/md';
-import { BsCashStack } from 'react-icons/bs';
+import { FcCurrencyExchange } from 'react-icons/fc';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { BiAnalyse } from 'react-icons/bi';
 import { BiCog } from 'react-icons/bi';
@@ -24,7 +24,7 @@ export const routes = {
     {
       id: 'landing-01',
       path: '/',
-      name: 'Home',
+      name: 'Inicio',
       icon: <FaHome />,
     },
     {
@@ -38,7 +38,7 @@ export const routes = {
     {
       id: 'login-01',
       path: '/',
-      name: 'Home',
+      name: 'Inicio',
       icon: <FaHome />,
     },
   ],
@@ -84,12 +84,12 @@ export const routes = {
     {
       id: 'admin-01',
       path: '/',
-      name: 'Home',
+      name: 'Inicio',
       icon: <FaHome />,
     },
     {
       id: 'admin-02',
-      path: '/admin/dashboard',
+      path: '/admin',
       name: 'Dashboard',
       icon: <AiOutlineDashboard />,
     },
@@ -115,9 +115,9 @@ export const routes = {
     },
     {
       id: 'admin-04',
-      path: '/admin/payment',
-      name: 'Pagos Confirmados',
-      icon: <BsCashStack />,
+      path: '/admin/exchangeRate',
+      name: 'Tasas de Cambio',
+      icon: <FcCurrencyExchange />,
     },
     {
       id: 'admin-05',
