@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FaAngleDown } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import styles from './sidebar.module.scss';
 
 const menuAnimation = {
   hidden: {
@@ -51,8 +52,8 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
 
   return (
     <>
-      <div className="menu" onClick={toggleMenu}>
-        <div className="menu_item">
+      <div className={styles.menu} onClick={toggleMenu}>
+        <div className={styles.menu_item}>
           <div className="icon">{route.icon}</div>
           <AnimatePresence>
             {isOpen && (
@@ -61,7 +62,7 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
                 initial="hidden"
                 animate="show"
                 exit="hidden"
-                className="link_text"
+                className={styles.link_text}
               >
                 {route.name}
               </motion.div>
@@ -90,13 +91,15 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="menu_container"
+            className={styles.menu_container}
           >
             {route.subRoutes.map((subRoute, i) => (
               <motion.div variants={menuItemAnimation} key={i} custom={i}>
-                <NavLink to={subRoute.path} className="link">
+                <NavLink to={subRoute.path} className={styles.link}>
                   <div className="icon">{subRoute.icon}</div>
-                  <motion.div className="link_text">{subRoute.name}</motion.div>
+                  <motion.div className={styles.link_text}>
+                    {subRoute.name}
+                  </motion.div>
                 </NavLink>
               </motion.div>
             ))}

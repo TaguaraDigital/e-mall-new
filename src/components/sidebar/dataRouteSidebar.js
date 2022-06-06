@@ -4,6 +4,7 @@ import {
   FaLock,
   FaMailBulk,
   FaMoneyBill,
+  FaFileInvoiceDollar,
   FaShip,
   FaSignOutAlt,
   FaSignInAlt,
@@ -11,6 +12,8 @@ import {
   FaUserEdit,
 } from 'react-icons/fa';
 import { MdMessage } from 'react-icons/md';
+import { BsCashStack } from 'react-icons/bs';
+import { GiTakeMyMoney } from 'react-icons/gi';
 import { BiAnalyse } from 'react-icons/bi';
 import { BiCog } from 'react-icons/bi';
 import { AiOutlineDashboard, AiTwotoneFileExclamation } from 'react-icons/ai';
@@ -92,15 +95,29 @@ export const routes = {
     },
     {
       id: 'admin-03',
-      path: '/admin/invoicetoconfirm',
-      name: 'Confirmar Pagos',
-      icon: <FaShip />,
+      path: '/admin',
+      name: 'Recibos',
+      icon: <FaFileInvoiceDollar />,
+      subRoutes: [
+        {
+          id: 'admin-03-01',
+          path: '/admin/invoicetoconfirm',
+          name: 'Confirmar Pagos',
+          icon: <GiTakeMyMoney />,
+        },
+        {
+          id: 'admin-03-02',
+          path: '/admin/payments',
+          name: 'Pagos Confirmados',
+          icon: <FaMoneyBill />,
+        },
+      ],
     },
     {
       id: 'admin-04',
       path: '/admin/payment',
       name: 'Pagos Confirmados',
-      icon: <FaShip />,
+      icon: <BsCashStack />,
     },
     {
       id: 'admin-05',
