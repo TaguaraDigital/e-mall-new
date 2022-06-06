@@ -52,7 +52,7 @@ export const headerData = {
     {
       id: 'admin-03',
       title: 'Pagos Confirmados',
-      path: './paymentconfirm',
+      path: './admin/payments',
       cName: 'single',
       icon: <BsCardChecklist />,
     },

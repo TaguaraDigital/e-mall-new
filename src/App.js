@@ -7,6 +7,7 @@ import { Landing } from './pages/landing';
 import { Login } from './pages/login';
 import { AdminHome } from './pages/adminHome';
 import { InvoiceAdmin } from './pages/adminHome/InvoiceAdmin';
+import { PaymentsConfirm } from './pages/adminHome/PaymentsConfirm';
 import { ExchangeRates } from './pages/adminHome/ExchangeRates';
 import { UsersHome } from './pages/usersHome';
 import { UserInvoicesPending } from './pages/usersHome/InvoicesPending';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminHome />} />
             <Route path="/admin/invoicetoconfirm" element={<InvoiceAdmin />} />
+            <Route path="/admin/payments" element={<PaymentsConfirm />} />
             <Route path="/admin/exchangeRate" element={<ExchangeRates />} />
             <Route path="/user" element={<UsersHome />} />
             <Route
